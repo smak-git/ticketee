@@ -9,11 +9,28 @@ class UsersController < ApplicationController
   		flash[:notice] = "You have signed up successfully"
   		redirect_to projects_path
   	else
-  		render :new
+  		flash[:alert] = "There was an error, please try again"
+      render :new
   	end
   end
 
   def show
+    @user = User.find(params[:id])
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = "Profile has been updated"
+      redirect_to @user
+    else
+      flash[:alert] = "Profile has not been updated"
+      render 'edit'
+    end
   end
 
   private
